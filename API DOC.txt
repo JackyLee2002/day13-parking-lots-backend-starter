@@ -1,0 +1,51 @@
+GET /parking-lots
+
+Response 200
+Body: List<ParkingLot>
+[
+    {
+        "id": 1,
+        "name": "The Plaza Park",
+        "tickets": [
+            {
+                "plateNumber": "TE-1234",
+                "position": 1,
+                "parkingLot": 1
+            }
+        ],
+        "capacity": 9,
+        "availablePositionRate": 0.8888888888888888,
+        "availableCapacity": 8,
+        "full": false
+    },
+    {
+        "id": 2,
+        "name": "City Mall Garage",
+        "tickets": [],
+        "capacity": 12,
+        "availablePositionRate": 1.0,
+        "availableCapacity": 12,
+        "full": false
+    },
+    {
+        "id": 3,
+        "name": "Office Tower Parking",
+        "tickets": [],
+        "capacity": 9,
+        "availablePositionRate": 1.0,
+        "availableCapacity": 9,
+        "full": false
+    }
+]
+
+
+
+POST /park/{plateNumber}/{parkingBoy}
+
+Response 201
+Body: Car Entity 
+{
+    "plateNumber": "TE-1234",
+    "position": 1,
+    "parkingLot": 1
+}
