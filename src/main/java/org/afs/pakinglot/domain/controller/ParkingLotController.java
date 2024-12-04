@@ -8,6 +8,9 @@ import org.afs.pakinglot.domain.service.ParkingLotService;
 import org.afs.pakinglot.domain.strategies.AvailableRateStrategy;
 import org.afs.pakinglot.domain.strategies.MaxAvailableStrategy;
 import org.afs.pakinglot.domain.strategies.SequentiallyStrategy;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -40,9 +43,9 @@ public class ParkingLotController {
     }
 
     @PostMapping("/park/{plateNumber}/{parkingBoy}")
-    public Ticket park(@PathVariable String plateNumber, @PathVariable String parkingBoy) {
+    public ResponseEntity<Ticket> park(@PathVariable String plateNumber, @PathVariable String parkingBoy) {
         if (!Arrays.asList(parkingBoys).contains(parkingBoy)) {
-            throw new IllegalArgumentException("Invalid parking boy");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         for (ParkingLot parkingLot : parkingLotService.getAllParkingLots()) {
             for (Ticket t : parkingLot.getTickets()) {
@@ -53,17 +56,17 @@ public class ParkingLotController {
         }
         switch (parkingBoy) {
             case "Standard":
-                return StandParkingBoy.park(new Car(plateNumber));
+                return ResponseEntity.ok(StandParkingBoy.park(new Car(plateNumber)));
             case "Smart":
-                return SmartParkingBoy.park(new Car(plateNumber));
+                return ResponseEntity.ok(SmartParkingBoy.park(new Car(plateNumber)));
             case "SuperSmart":
-                return SuperSmartParkingBoy.park(new Car(plateNumber));
+                return ResponseEntity.ok(SuperSmartParkingBoy.park(new Car(plateNumber)));
         }
         return null;
     }
 
     @PostMapping("/fetch/{plateNumber}")
-    public Car fetch(@PathVariable String plateNumber) {
+    public ResponseEntity<Car> fetch(@PathVariable String plateNumber) {
 //       first loop over all parking lots to find the ticket within each parking lot's tickets array
         Ticket ticket = null;
         for (ParkingLot parkingLot : parkingLotService.getAllParkingLots()) {
@@ -76,10 +79,10 @@ public class ParkingLotController {
         }
 //        if ticket is not found, throw an exception
         if (ticket == null) {
-            throw new IllegalArgumentException();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 //        if ticket is found, fetch the car from the parking lot
-        return StandParkingBoy.fetch(ticket);
+        return ResponseEntity.ok(StandParkingBoy.fetch(ticket));
     }
 
 }

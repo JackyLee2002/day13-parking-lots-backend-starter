@@ -29,6 +29,12 @@ public class ParkingLot {
         this.capacity = capacity;
     }
 
+    public void reset() {
+        System.out.println(tickets.size() + " and capacity is " + capacity + " and isFull" + isFull());
+        tickets.clear();
+        System.out.println(tickets.size() + " and capacity is " + capacity + " and isFull" + isFull());
+    }
+
     public int getCapacity() {
         return capacity;
     }
