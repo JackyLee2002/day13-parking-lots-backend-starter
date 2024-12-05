@@ -2,13 +2,13 @@ Backend
 
 ### ParkingManager
 You are an experienced Java software engineer working on a project about digitizing Parking lots management.
-Parking manager is responsible for managing three parking lots: 
-● The Plaza Park (9 parking capacity) 
-● City Mall Garage (12 parking capacity) 
+Parking manager is responsible for managing three parking lots:
+● The Plaza Park (9 parking capacity)
+● City Mall Garage (12 parking capacity)
 ● Office Tower Parking (9 parking capacity)
 The Parking Manager have employed three Parking Boys to help manage these parking lots, each utilizing a specific parking strategy:
 Standard parking strategy, Smart parking strategy, Super Smart parking strategy implement, their attribute names within the Parking Manager should be StandardParkingBoy,SuperParkingBoy and SuperSmartParkingBoy.
-Please create A parking manager class, given the above 3 parking lots and 3 parking boys, manager have the following 3 method: 
+Please create A parking manager class, given the above 3 parking lots and 3 parking boys, manager have the following 3 method:
 1. getAllParkingLots(): return all parking lots park(plate number, strategy)
 2. request the correct parking boy to do the parking job and return a Ticket(plate number)
 3. fetch the car from the corresponding parking lot and return the car.
@@ -43,10 +43,10 @@ Make sure all the test case function name ae written using the should_when_given
 Write another testcase that covers the scenario where the platenumber does not following the format ^[A-Z]{2}-\\d{4}$
 
 
-### Generate Test for ParkingLot GET /parking-lots and POST /park/{plateNumber}/{parkingBoy}
-Given the ParkingLotController, write JUnit5 Test that uses mockMVC to test the get /parking-lots and post /park/{plateNumber}/{parkingBoy} to ensure 100% branch and line coverage.
-The test should use the given_when_then format for the function naming, and add the given when then comment within the test to make it clearer.
-###
+### Generate Test for ParkingLot GET /parking-lots and POST /park/
+Now In a file called ParkingLotController using RestController with default mapping of "/" Get /parking-lots // response: List base on the above API of the ParkingManager
+Now, finish the Post /park request with body (make a new DTO called parkDTO): String plateNumber, String parkingBoyStrategy with response of : Ticket base on the API of ParkingManager
+Lastly, finish Post /fetch request with body (make a new DTO called fetchDTO): String plateNumber with response: Car base on the above API###
 
 
 Frontend
@@ -61,38 +61,38 @@ The app should use useContext and useReducer to globally store the state and mod
 
 Below is an example of the API that would be called to get the status of the parking lots
 [
-    {
-        "id": 1,
-        "name": "The Plaza Park",
-        "tickets": [
-            {
-                "plateNumber": "TE-1234",
-                "position": 1,
-                "parkingLot": 1
-            }
-        ],
-        "capacity": 9,
-        "availablePositionRate": 0.8888888888888888,
-        "availableCapacity": 8,
-        "full": false
-    },
-    {
-        "id": 2,
-        "name": "City Mall Garage",
-        "tickets": [],
-        "capacity": 12,
-        "availablePositionRate": 1.0,
-        "availableCapacity": 12,
-        "full": false
-    },
-    {
-        "id": 3,
-        "name": "Office Tower Parking",
-        "tickets": [],
-        "capacity": 9,
-        "availablePositionRate": 1.0,
-        "availableCapacity": 9,
-        "full": false
-    }
+{
+"id": 1,
+"name": "The Plaza Park",
+"tickets": [
+{
+"plateNumber": "TE-1234",
+"position": 1,
+"parkingLot": 1
+}
+],
+"capacity": 9,
+"availablePositionRate": 0.8888888888888888,
+"availableCapacity": 8,
+"full": false
+},
+{
+"id": 2,
+"name": "City Mall Garage",
+"tickets": [],
+"capacity": 12,
+"availablePositionRate": 1.0,
+"availableCapacity": 12,
+"full": false
+},
+{
+"id": 3,
+"name": "Office Tower Parking",
+"tickets": [],
+"capacity": 9,
+"availablePositionRate": 1.0,
+"availableCapacity": 9,
+"full": false
+}
 ]
 ###

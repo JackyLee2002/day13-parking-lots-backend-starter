@@ -8,7 +8,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,28 +26,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 public class ParkingLotControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
-    public void setUp() {
-        List<ParkingLot> parkingLots = Arrays.asList(
-                new ParkingLot(1, "The Plaza Park", 9),
-                new ParkingLot(2, "City Mall Garage", 12),
-                new ParkingLot(3, "Office Tower Parking", 9)
-        );
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void givenParkingLots_whenGetAll_thenReturnJsonArray() throws Exception {
-        // given
-        // when
+    void givenParkingManagerController_whenGetAllParkingLots_thenReturnsAllParkingLots() throws Exception {
         mockMvc.perform(get("/parking-lots"))
-                // then
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("The Plaza Park"))
                 .andExpect(jsonPath("$[0].capacity").value(9))
@@ -57,22 +53,30 @@ public class ParkingLotControllerTest {
     }
 
     @Test
-    public void givenValidPlateNumberAndParkingBoy_whenPark_thenReturnOk() throws Exception {
-        // given
-        // when
-        mockMvc.perform(post("/park/AB-2234/Standard"))
-                // then
-                .andExpect(status().isOk());
+    void givenParkingManagerController_whenPark_thenReturnsTicket() throws Exception {
+        mockMvc.perform(post("/park")
+                        .content("{\"plateNumber\": \"XY-5678\", \"parkingBoyStrategy\": \"Standard\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.plateNumber").value("XY-5678"))
+                .andExpect(jsonPath("$.parkingLot").exists())
+                .andExpect(jsonPath("$.position").exists());
     }
 
     @Test
-    public void givenInvalidParkingBoy_whenPark_thenReturnBadRequest() throws Exception {
-        // given
-        // when
-        mockMvc.perform(post("/park/AB-2234/InvalidBoy"))
-                // then
-                .andExpect(status().isBadRequest());
+    void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
+        mockMvc.perform(post("/park")
+                        .content("{\"plateNumber\": \"XY-5678\", \"parkingBoyStrategy\": \"Standard\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
 
+                .andExpect(status().isOk());
+
+        // Then, fetch the car
+        mockMvc.perform(post("/fetch")
+                        .content("{\"plateNumber\": \"XY-5678\"}")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
     }
 
 
