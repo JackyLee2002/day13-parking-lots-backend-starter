@@ -1,6 +1,0 @@
-Backend
-
-
-# Generate Test for ParkingLot GET /parking-lots and POST /park/{plateNumber}/{parkingBoy}
-Given the ParkingLotController, write JUnit5 Test that uses mockMVC to test the get /parking-lots and post /park/{plateNumber}/{parkingBoy} to ensure 100% branch and line coverage.
-The test should use the given_when_then format for the function naming, and add the given when then comment within the test to make it clearer
