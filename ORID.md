@@ -1,0 +1,7 @@
+O: Todays lecture, we learnt a lot about how Gen AI can be applied and utilised to facilitate our regular development work in addition to business requirement analysis. Through careful prompting techniques, we can improve the output quality of coding agents like Github Copilot and reduce the chance of having irrelevant or hallucinated output.
+
+R: Conflicted
+
+I: At the same time being impressed by its ability to give out relevant answers given sufficient amount of prompting and context feeding. For most projects, either really big in size/scale or relatively small one, use of such coding Agents heavily usually yield less than satisfactory results because of the amount of information we can provide. And I still believe AI coding agents should be used as a copilot, a supporting tool for us and not the other way around where AI generate most if not all the code and we have to look through it for mistakes and bugs, which in turn slows down our development process more.
+
+D: Similar to what Minghao老師 demonstrated, having a collection of predefined prompts that can be used with minimal changes can be beneficial for generating code for really repetitive task, like Unit test/Integration Test/API Spec, drastically improving the efficiency at which we can perform certain tasks using LLM.
