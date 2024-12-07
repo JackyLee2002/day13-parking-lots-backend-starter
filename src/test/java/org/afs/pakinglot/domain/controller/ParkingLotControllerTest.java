@@ -66,17 +66,17 @@ public class ParkingLotControllerTest {
     @Test
     void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
         mockMvc.perform(post("/park")
-                        .content("{\"plateNumber\": \"XY-5678\", \"parkingBoyStrategy\": \"Standard\"}")
+                        .content("{\"plateNumber\": \"XY-5679\", \"parkingBoyStrategy\": \"Standard\"}")
                         .contentType(MediaType.APPLICATION_JSON))
 
                 .andExpect(status().isOk());
 
         // Then, fetch the car
         mockMvc.perform(post("/fetch")
-                        .content("{\"plateNumber\": \"XY-5678\"}")
+                        .content("{\"plateNumber\": \"XY-5679\"}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
+                .andExpect(jsonPath("$.plateNumber").value("XY-5679"));
     }
 
 

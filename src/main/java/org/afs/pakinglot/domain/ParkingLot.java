@@ -29,12 +29,6 @@ public class ParkingLot {
         this.capacity = capacity;
     }
 
-    public void reset() {
-        System.out.println(tickets.size() + " and capacity is " + capacity + " and isFull" + isFull());
-        tickets.clear();
-        System.out.println(tickets.size() + " and capacity is " + capacity + " and isFull" + isFull());
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -43,12 +37,23 @@ public class ParkingLot {
         return capacity - tickets.size();
     }
 
+    private int findFirstAvailableSlot() {
+        for (int i = 1; i <= capacity; i++) {
+            int slot = i;
+            boolean isSlotTaken = tickets.keySet().stream().anyMatch(ticket -> ticket.position() == slot);
+            if (!isSlotTaken) {
+                return slot;
+            }
+        }
+        throw new NoAvailablePositionException();
+    }
+
     public Ticket park(Car car) {
         if (isFull()) {
             throw new NoAvailablePositionException();
         }
 
-        Ticket ticket = new Ticket(car.plateNumber(), tickets.size() + 1, this.id);
+        Ticket ticket = new Ticket(car.plateNumber(), findFirstAvailableSlot(), id);
         tickets.put(ticket, car);
         return ticket;
     }
